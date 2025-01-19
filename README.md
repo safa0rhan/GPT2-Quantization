@@ -21,5 +21,5 @@ This project implements a post-training quantization (PTQ) framework for GPT-2 t
   - `modelq.py`: Quantized GPT-2 model.
   - `llm.py`: Language model utilities.
   - `test_int8_mm.py`: Script for testing the custom int8 kernel.
-  - `docs/`: Documentation and references.
+- `docs/`: Documentation and references.
   - `article.pdf`: Paper detailing the project and results.
