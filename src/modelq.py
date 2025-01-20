@@ -7,14 +7,6 @@ from my_int8_mm import int8_matmul
 class QuantLinear(nn.Module):
     def __init__(self, float_weight: torch.Tensor, bias: torch.Tensor or None,
                  w_scale: float, a_scale: float = None):
-        """
-        Args:
-            float_weight: the original FP32 weight. We'll convert this to int8.
-            bias: the original FP32 bias (optional).
-            w_scale: scale factor for weight (symmetric).
-            a_scale: scale factor for activation (symmetric).
-                     If None, we do not quantize activation.
-        """
         super().__init__()
         self.out_features = float_weight.size(0)
         self.in_features  = float_weight.size(1)
@@ -73,10 +65,6 @@ def compute_weight_scale_symmetric(weight_tensor):
     return scale
 
 def collect_linear_weight_scales(model, prefix="", weight_scales=None):
-    """
-    Recursively gather weight scales for each nn.Linear in the model,
-    storing them in `weight_scales` using a full dotted path.
-    """
     if weight_scales is None:
         weight_scales = {}
 
@@ -100,10 +88,6 @@ def create_quant_linear_from_linear(linear: nn.Linear):
     return qlinear
 
 def collect_activation_stats(model, dataloader):
-    """
-    We'll register forward hooks on each layer we want to quantize,
-    record min/max of the activation, then compute scale afterwards.
-    """
     act_mins = {}
     act_maxs = {}
 
